@@ -90,7 +90,7 @@ void mirror(Node* root) {
 void main() {
     Node* root = NULL;
 
-    char cmd[100];
+    char cmd[500];
     int num;
     scanf("%[^\n]s", cmd);
 
