@@ -221,6 +221,18 @@ void postorder(Node* node) {
     printf("%d ", node->data);
 }
 
+void paren(Node* root) {
+    printf("(");
+    if (root == NULL) {
+        printf(")");
+        return;
+    }
+    printf("%d", root->data);
+    paren(root->left);
+    paren(root->right);
+    printf(")");
+}
+
 void main() {
     Node* root = NULL;
 
@@ -291,6 +303,9 @@ void main() {
             printf("\n");
         } else if (!strcmp(cmd, "post")) {
             postorder(root);
+            printf("\n");
+        } else if (!strcmp(cmd, "prep")) {
+            paren(root);
             printf("\n");
         } else if (!strcmp(cmd, "stop")) {
             break;

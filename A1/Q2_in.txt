@@ -1,0 +1,12 @@
+insr 43
+insr 15
+insr 8
+insr 30
+insr 20
+insr 35
+insr 60
+insr 50
+insr 82
+insr 70
+prep
+stop
