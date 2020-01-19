@@ -57,8 +57,10 @@ void paren(Node* root) {
 
 Node* buildTree(char* cmd) {
     int num = 0;
+    
     Node* root = NULL;
     int numStart = 0;
+
     while (*cmd != '\0') {
         if (isdigit(*cmd)) {
             numStart = 1;
@@ -68,8 +70,8 @@ Node* buildTree(char* cmd) {
             if (numStart) {
                 insert(&root, newNode(num));
                 num = 0;
+                numStart = 0;
             }
-            numStart = 0;
         }
         cmd++;
     }
