@@ -1,4 +1,4 @@
-/* Program to input a BST in parantheses format and print its height and longest path
+/* Program to input a BST in parantheses format and print in each nodes sum format
  * Author   -   Anish Sharma
  * Date     -   19/01/2020
 */
@@ -9,10 +9,8 @@
 #include <string.h>
 #include <ctype.h>
 
-#define IS_DIGIT(x) ((x <= '9') && (x >= '0'))
-
 typedef struct Node {
-    int data;
+    int data, sum;
     struct Node *left, *right;
 } Node;
 
@@ -49,7 +47,7 @@ void paren(Node* root) {
         printf(") ");
         return;
     }
-    printf("%d ", root->data);
+    printf("%d ", root->sum);
     paren(root->left);
     paren(root->right);
     printf(") ");
@@ -67,7 +65,11 @@ Node* buildTree(char* cmd, int start, int end) {
     if (i == end) return NULL;
     i++;
     int flag = 0;
+    int sign = 1;
     while (cmd[i] != '(' && cmd[i] != ')') {
+        if (cmd[i] == '-') {
+            sign = -1;
+        }
         if (isdigit(cmd[i])) {
             flag = 1;
             num *= 10;
@@ -79,6 +81,8 @@ Node* buildTree(char* cmd, int start, int end) {
         if (i >= end)
             return NULL;
     }
+
+    num *= sign;
 
     if (!flag) return NULL;
 
@@ -118,44 +122,10 @@ Node* buildTree(char* cmd, int start, int end) {
     return root;
 }
 
-int max(int a, int b) { return (a > b) ? a : b; }
-
-int findHeight(Node* root, int level) {
-    if (root == NULL) return level;
-    return max(findHeight(root->left, level + 1), findHeight(root->right, level + 1));
-}
-
-int height(Node* root) {
-    return findHeight(root, -1);
-}
-
-int deepest(Node* root, int level, Node** deep) {
-    if (root == NULL) {
-        return level;
-    }
-    if (root->left == NULL && root->right == NULL) {
-        *deep = root;
-        return level + 1;
-    }
-
-    Node *leftDepth, *rightDepth;
-    
-    int left = deepest(root->left, level + 1, &leftDepth);
-    int right = deepest(root->right, level + 1, &rightDepth);
-
-    if (left > right) {
-        *deep = leftDepth;
-        return left;
-    } else {
-        *deep = rightDepth;
-        return right;
-    }
-}
-
-int longest_path(Node* root) {
-    Node* deep = NULL;
-    int depth = deepest(root, -1, &deep);
-    return depth;
+int sum(Node* root) {
+    if (root == NULL) return 0;
+    root->sum = sum(root->left) + sum(root->right) + root->data;
+    return root->sum;
 }
 
 void main() {
@@ -166,10 +136,8 @@ void main() {
 
     root = buildTree(cmd, 0, 500);
 
+    sum(root);
+
     paren(root);
     printf("\n");
-    
-    int h = height(root);
-    int l = longest_path(root);
-    printf("%d %d\n", h, l);
 }
