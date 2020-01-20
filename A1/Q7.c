@@ -138,27 +138,57 @@ int findMax(Node* root) {
     return max(root->data, max(findMax(root->left), findMax(root->right)));
 }
 
-int maxSubBST(Node* root) {
+int findMaxSubBST(Node* root, int* maxChild, int* minChild, int* valid) {
     if (!root) return 0;
     int left = 0, right = 0;
     int flag = 0;
 
+    if (!root->left && !root->right) {
+        *maxChild = root->data;
+        *minChild = root->data;
+        *valid = 1;
+        return 1;
+    }
+
+    int leftMax = INT_MIN;
+    int rightMax = INT_MIN;
+    int leftMin = INT_MAX;
+    int rightMin = INT_MAX;
+
+    int leftValid = 1, rightValid = 1;
+
     if (root->left) {
-        if (findMax(root->left) > root->data)
+        left = findMaxSubBST(root->left, &leftMax, &leftMin, &leftValid);
+        if (leftMax > root->data)
             flag=1;
-        left = maxSubBST(root->left);
     }
 
     if (root->right) {
-        if (findMin(root->right) < root->data)
+        right = findMaxSubBST(root->right, &rightMax, &rightMin, &rightValid);
+        if (rightMin < root->data)
             flag=1;
-        right = maxSubBST(root->right);
     }
 
-    if (!flag)
-        return left + right + 1;
+    if (!leftValid || !rightValid)
+        flag = 1;
 
+    *maxChild = max(root->data, max(leftMax, rightMax));
+    *minChild = min(root->data, min(leftMin, rightMin));
+
+    if (flag) {
+        *valid = 0;
+    }
+
+    if (!flag) {
+        return left + right + 1;
+    }
     return max(left, right);
+}
+
+int maxSubBST(Node* root) {
+    int max, min, valid;
+
+    return findMaxSubBST(root, &max, &min, &valid);
 }
 
 void main() {
@@ -168,7 +198,7 @@ void main() {
     scanf("%[^\n]s", cmd);
 
     root = buildTree(cmd, 0, 500);
-
     int num = maxSubBST(root);
+    
     printf("%d\n", num);
 }
