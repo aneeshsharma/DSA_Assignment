@@ -1,27 +1,18 @@
-srch 25
-minm
-maxm
-pred 25
-succ 25
-insr 25
-srch 25
-minm
-maxm
-pred 25
-succ 25
-insr 13
-insr 50
-insr 45
-insr 55
+insr 2
+insr 1
+insr 3
+insr 10
+insr 5
+insr 4
+insr 15
 insr 18
-srch 10
-inor
-prer
-post
-delt 55
-delt 18
-delt 25
-inor
-minm
+insr 12
+srch 4
 maxm
+srch 18
+srch 11
+pred 10
+inor
+pred 12
+inor
 stop

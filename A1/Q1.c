@@ -86,7 +86,7 @@ Node* predecessor(Node* root, Node* node) {
     if (node->left != NULL) return findMaxNode(node->left);
     Node* x = root;
     Node* y = NULL;
-    Node* max = (Node*) -1;
+    Node* max = (Node*) NULL;
     while (x != NULL) {
         y = x;
 
@@ -101,9 +101,11 @@ Node* predecessor(Node* root, Node* node) {
             x = x->left;
         }
         else {
-            return max;
+            break;
         }
     }
+    if (max == NULL)
+        return (Node*) -1;
     return max;
 }
 
@@ -112,7 +114,7 @@ Node* successor(Node* root, Node* node) {
     if (node->right != NULL) return findMinNode(node->right);
     Node* x = root;
     Node* y = NULL;
-    Node* min = (Node*) -1;
+    Node* min = (Node*) NULL;
     while (x != NULL) {
         y = x;
 
@@ -127,9 +129,11 @@ Node* successor(Node* root, Node* node) {
             x = x->right;
         }
         else {
-            return min;
+            break;
         }
     }
+    if (min == NULL)
+        return (Node*)-1;
     return min;
 }
 
