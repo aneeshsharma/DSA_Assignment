@@ -223,7 +223,7 @@ void print_Code_Length(char* m) {
 
 void main() {
     char input[100];
-
+    int len;
     do {
         scanf("%s", input);
         print_Code_Length(input);

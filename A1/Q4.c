@@ -41,15 +41,15 @@ void insert(Node** root, Node* element) {
 }
 
 void paren(Node* root) {
-    printf("(");
+    printf("( ");
     if (root == NULL) {
-        printf(")");
+        printf(") ");
         return;
     }
-    printf("%d", root->data);
+    printf("%d ", root->data);
     paren(root->left);
     paren(root->right);
-    printf(")");
+    printf(") ");
 }
 
 void main() {
