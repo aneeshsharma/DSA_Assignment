@@ -142,16 +142,16 @@ int maxSubBST(Node* root) {
     if (!root) return 0;
     int left = 0, right = 0;
     int flag = 0;
-    if (findMax(root->left) > root->data)
-            flag=1;
+
     if (root->left) {
+        if (findMax(root->left) > root->data)
+            flag=1;
         left = maxSubBST(root->left);
     }
 
-    if (findMin(root->right) < root->data)
-            flag=1;
-
     if (root->right) {
+        if (findMin(root->right) < root->data)
+            flag=1;
         right = maxSubBST(root->right);
     }
 
