@@ -1,4 +1,4 @@
-/* Program to input a Binary Tree in parantheses format and print its height and longest path
+/* Program to input a Binary Tree in parantheses format and print size of the largest BST
  * Author   -   Anish Sharma
  * Date     -   19/01/2020
 */
@@ -8,8 +8,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
-
-#define IS_DIGIT(x) ((x <= '9') && (x >= '0'))
+#include <limits.h>
 
 typedef struct Node {
     int data;
@@ -66,9 +65,12 @@ Node* buildTree(char* cmd, int start, int end) {
     for (i=start; i <= end && cmd[i] != '('; i++);
     if (i == end) return NULL;
     i++;
-    
     int flag = 0;
+    int sign = 1;
     while (cmd[i] != '(' && cmd[i] != ')') {
+        if (cmd[i] == '-') {
+            sign = -1;
+        }
         if (isdigit(cmd[i])) {
             flag = 1;
             num *= 10;
@@ -80,6 +82,8 @@ Node* buildTree(char* cmd, int start, int end) {
         if (i >= end)
             return NULL;
     }
+
+    num *= sign;
 
     if (!flag) return NULL;
 
@@ -121,42 +125,40 @@ Node* buildTree(char* cmd, int start, int end) {
 
 int max(int a, int b) { return (a > b) ? a : b; }
 
-int findHeight(Node* root, int level) {
-    if (root == NULL) return level;
-    return max(findHeight(root->left, level + 1), findHeight(root->right, level + 1));
+int min(int a, int b) { return (a < b) ? a : b; }
+
+
+int findMin(Node* root) {
+    if (root == NULL) return INT_MAX;
+    return min(root->data, min(findMin(root->left), findMin(root->right)));
 }
 
-int height(Node* root) {
-    return findHeight(root, -1);
+int findMax(Node* root) {
+    if (root == NULL) return INT_MIN;
+    return max(root->data, max(findMax(root->left), findMax(root->right)));
 }
 
-int deepest(Node* root, int level, Node** deep) {
-    if (root == NULL) {
-        return level;
-    }
-    if (root->left == NULL && root->right == NULL) {
-        *deep = root;
-        return level + 1;
+int maxSubBST(Node* root) {
+    if (!root) return 0;
+    int left = 0, right = 0;
+    int flag = 0;
+    if (findMax(root->left) > root->data)
+            flag=1;
+    if (root->left) {
+        left = maxSubBST(root->left);
     }
 
-    Node *leftDepth, *rightDepth;
-    
-    int left = deepest(root->left, level + 1, &leftDepth);
-    int right = deepest(root->right, level + 1, &rightDepth);
+    if (findMin(root->right) < root->data)
+            flag=1;
 
-    if (left > right) {
-        *deep = leftDepth;
-        return left;
-    } else {
-        *deep = rightDepth;
-        return right;
+    if (root->right) {
+        right = maxSubBST(root->right);
     }
-}
 
-int longest_path(Node* root) {
-    Node* deep = NULL;
-    int depth = deepest(root, -1, &deep);
-    return depth;
+    if (!flag)
+        return left + right + 1;
+
+    return max(left, right);
 }
 
 void main() {
@@ -167,10 +169,6 @@ void main() {
 
     root = buildTree(cmd, 0, 500);
 
-    paren(root);
-    printf("\n");
-    
-    int h = height(root);
-    int l = longest_path(root);
-    printf("%d %d\n", h, l);
+    int num = maxSubBST(root);
+    printf("%d\n", num);
 }
