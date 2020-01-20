@@ -128,29 +128,6 @@ int height(Node* root) {
     return findHeight(root, -1);
 }
 
-int deepest(Node* root, int level, Node** deep) {
-    if (root == NULL) {
-        return level;
-    }
-    if (root->left == NULL && root->right == NULL) {
-        *deep = root;
-        return level + 1;
-    }
-
-    Node *leftDepth, *rightDepth;
-    
-    int left = deepest(root->left, level + 1, &leftDepth);
-    int right = deepest(root->right, level + 1, &rightDepth);
-
-    if (left > right) {
-        *deep = leftDepth;
-        return left;
-    } else {
-        *deep = rightDepth;
-        return right;
-    }
-}
-
 int longest_path(Node* root, int* maxDepth) {
     if (root == NULL) {
         *maxDepth = 0;
