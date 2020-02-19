@@ -83,6 +83,8 @@ int insert(int key, Students students, int m, char function, int c1, int c2) {
         return -1;
     students[h].key = key;
     students[h].recorded = 1;
+
+    return 0;
 }
 
 int search(int key, Students students, int m, char function, int c1, int c2) {
