@@ -1,0 +1,9 @@
+insr 4
+insr 6
+insr 3
+insr 2
+insr 1
+srch 2
+disp
+delt 3
+disp
