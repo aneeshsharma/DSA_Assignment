@@ -141,20 +141,20 @@ Node* predecessor(Node *tree,int i)
 			return findMax(x->left);
 	else
 	{
-			while (tree != NULL)
+		while (tree != NULL)
+		{
+			if (i < tree->data)
+				tree = tree->left;
+			else if (i > tree->data)
 			{
-					if (i < tree->data)
-							tree = tree->left;
-					else if (i > tree->data)
-					{
-							y = tree;
-							tree = tree->right;
-					}
-					else if (i == tree->data)
-					{
-							return y;
-					}
+				y = tree;
+				tree = tree->right;
 			}
+			else if (i == tree->data)
+			{
+				return y;
+			}
+		}
 	}
 
 	return NULL;
@@ -190,7 +190,6 @@ Node* successor(Node *tree, int i)
 Node* delete(Node *tree, Node *z, int i)
 {
 	Node *temp, *temp2;
-	//exit condition
 	if (tree == NULL)
 		return tree;
 
@@ -204,13 +203,14 @@ Node* delete(Node *tree, Node *z, int i)
 	}
 	else if (tree==z)
 	{
-		// no child
+		// Case 1 - No Child
 		if (tree->right == NULL && tree->left == NULL)
 		{
 			free(tree);
 			return NULL;
 		}
-		//single child
+
+		// Case 2 - 1 Child
 		else if (tree->right == NULL)
 		{
 			temp = tree->left;
@@ -223,7 +223,8 @@ Node* delete(Node *tree, Node *z, int i)
 			free(tree);
 			return temp;
 		}
-		//two child
+
+		// Case 3 - 2 Children
 		temp2 = successor(tree, tree->data);
 		tree->data = temp2->data;
 		tree->right = delete(tree->right, z, temp2->data);
