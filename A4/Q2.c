@@ -50,13 +50,6 @@ int hasZero(int *set, int length)
     return 0;
 }
 
-void printList(int *list, int length)
-{
-    for (int i = 0; i < length; i++)
-        printf("%d ", list[i]);
-    printf("\n");
-}
-
 int *findAllPaths(Graph *graph, int src)
 {
     int V = graph->V;
@@ -76,27 +69,13 @@ int *findAllPaths(Graph *graph, int src)
             int w = getWeight(graph, u, j);
             if (w)
             {
-                printf("%d --> %d | %d\n", u, dist[u] + w, dist[j]);
                 if (dist[u] + w < dist[j])
                     dist[j] = dist[u] + w;
             }
         }
-
-        printf("Dist - ");
-        printList(dist, V);
     }
 
     return (int *)dist;
-}
-
-void printMatrix(Graph *graph)
-{
-    for (int i = 0; i < graph->V; i++)
-    {
-        for (int j = 0; j < graph->V; j++)
-            printf("%4d", getWeight(graph, i, j));
-        printf("\n");
-    }
 }
 
 void main()
@@ -117,6 +96,4 @@ void main()
     {
         printf("%d %d\n", i, dist[i]);
     }
-
-    printMatrix(graph);
 }
