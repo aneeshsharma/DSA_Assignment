@@ -67,7 +67,7 @@ int *findAllPaths(Graph *graph, int src)
         for (int j = 0; j < V; j++)
         {
             int w = getWeight(graph, u, j);
-            if (w)
+            if (w && !sptSet[j] && dist[u] != INT_MAX)
             {
                 if (dist[u] + w < dist[j])
                     dist[j] = dist[u] + w;
